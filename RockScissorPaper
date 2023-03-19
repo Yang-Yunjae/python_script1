@@ -1,0 +1,85 @@
+//for문, if문, random, scanner
+
+
+import java.util.Random;
+import java.util.Scanner;
+
+public class HomeWork {
+   public static void main(String[] args) {
+
+//전적 통계내기 위해서 count 초기값 설정해줘야함	   
+	   
+	   
+//	 1. 0,1,2,e,r을 눌렀는가? ------y:2로 이동 n: "다시 입력하세요." ----->문자열로 받아야함
+//	 2. 0,1,2 입력 / e 입력 / r 입력
+	   
+//	 2-1. 0,1,2로 눌렀는가?  -----y:게임실행 n: 출력 안함   ------->숫자로 받아야함
+//		1)사용자가 입력한 값 결과물 출력 ex) 0->사용자 : 가위 / 1-> 사용자 : 바위 / 2-> 사용자 : 보	
+//      2)컴퓨터의 값 결과물 출력      ex) 0->컴퓨터 : 가위 / 1-> 컴퓨터 : 바위 / 2-> 컴퓨터 : 보
+//	    3)사용자와 컴퓨터의 값 비교해서 승패결정
+//	      +승,패,무 통계를 내기 위해서 결과값마다 count세기 ---1번 실행할때 마다 1씩 누적되야하므로 count+1로 지정
+//	                                             ---
+//   2-2. e를 눌렀는가? ----y: "게임을 종료합니다."
+//   2-3. r을 눌렀는가? ----ㅛ: "전적을 조회합니다."  ---전적조회는 count가 누적된 최종값 보여줌!
+//      
+
+      int winCount = 0;
+      int loseCount = 0;
+      int drawCount = 0;
+      
+      for (int i =0; i<99999999 ; i++) {
+    	  System.out.println("<PRESS BUTTON> : 가위[0] 바위[1] 보[2] 종료[e] 전적조회[r]");
+    	  Scanner s = new Scanner(System.in);
+    	  Random r = new Random();
+    	  int com = r.nextInt(3);
+    	  String input = s.nextLine();
+//2-1. 0,1,2로 눌렀는가?  -----y:게임실행 n: 출력 안함
+    	  
+      if (input.equals("0") || input.equals("1") || input.equals("2")) {
+         System.out.println("");
+         int user = Integer.parseInt(input);
+//     1)사용자가 입력한 값 결과물 출력 ex) 0->사용자 : 가위 / 1-> 사용자 : 바위 / 2-> 사용자 : 보
+         if (user == 0) {
+            System.out.println("사용자 : 가위");
+         } else if (user == 1) {
+            System.out.println("사용자 : 바위");
+         } else {
+            System.out.println("사용자 : 보");
+         }
+//     2)컴퓨터의 값 결과물 출력 ex) 0->컴퓨터 : 가위 / 1-> 컴퓨터 : 바위 / 2-> 컴퓨터 : 보
+         if (com == 0) {
+            System.out.println("컴퓨터 : 가위");
+         } else if (com == 1) {
+            System.out.println("컴퓨터 : 바위");
+         } else if (com == 2) {
+            System.out.println("컴퓨터 : 보");
+         }
+// 	    3)사용자와 컴퓨터의 값 비교해서 승패결정
+//	      +승,패,무 통계를 내기 위해서 결과값마다 count세기
+         
+         if ((user == 0 && com == 2) || (user == 1 && com == 0) || (user == 2 && com == 1)) {
+            System.out.println("결과: 승리");
+            winCount = winCount + 1;
+         } else if (user == com) {
+            System.out.println("결과:무승부");
+            drawCount = drawCount + 1;
+         } else {
+            System.out.println("결과:패배");
+            loseCount = loseCount + 1;
+         }  
+      	 }  
+
+        else if (input.equals("r")) {
+    	  System.out.println("전적을 조회합니다.");
+    	  System.out.println("전적 : "+" 총 게임횟수["+ (winCount + loseCount + drawCount) + "] 승[" + winCount + "]패[" + loseCount + "]무[" + drawCount + "]");
+      } else if (input.equals("e")) {
+    	  System.out.println("게임을 종료합니다.");
+      } 
+      else {
+    	  System.out.println("잘못 입력하셨습니다.");
+      }
+
+
+   }
+}
+}
