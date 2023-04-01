@@ -1,0 +1,87 @@
+1. 로그인
+
+# SMTP 프로토콜 로드
+import smtplib
+
+# 이메일을 보낼 수 있는 라이브러리 로드
+from email.message import EmailMessage
+
+# GMAIL 메일 설정
+#587: 해당번호로 파이썬과 보내는사람 이메일을 연결시킨다
+smtp_gmail = smtplib.SMTP('smtp.gmail.com' , 587)  #수정해야 할 부분 : 'smtp.연결할 이메일형태'
+
+# 서버 연결
+smtp_gmail.ehlo()
+
+# 연결을 암호화
+smtp_gmail.starttls()
+
+userid = "~~~~@gmail.com"                          #수정해야 할 부분   : "~~~~@gmail.com"
+
+# 로그인
+userid = "~~~~~~~~"                                #수정해야 할 부분   : gmail주소까지 쓰는게 아니라 이름까지만 작성
+userpw = " "                                       #수정해야 할 부분   : 앱비밀번호 입력
+smtp_gmail.login(userid, userpw)
+
+
+
+2.보내는 사람 지정
+
+2-1. 보내고 싶은 사람 직접 지정
+to = ["a" , "b"]                                        #수정해야 할 부분: to =["보낼사람 이메일1", "보낼사람 이메일2"]
+
+2-2. 보내고 싶은 사람 미리 만들어놓은 파일로 볼러옴
+mailData = pd.read_csv("파일경로/파일명")                #수정해야 할 부분: 만든 파일의 경로를 불러온다
+
+# mailData에서 컬럼이 email인 것을 가지고옴
+#가져온 정보를 리스트화
+to = list( mailData.email )
+
+
+3.메일 전송
+#메일전송
+msg = EmailMessage()
+
+#제목입력
+msg['Subject'] = "ㅇㅇㅇㅇㅇ"       #수정해야 할 부분: "보낼 메일 제목"
+
+#내용 입력
+msg.set_content("ㅇㅇㅇㅇㅇㅇ")     #수정해야 할 부분: "보낼 메일 내용"
+
+#보내는 사람
+msg['From'] = "ㅇㅇㅇㅇㅇㅇ"        #수정해야 할 부분: "보내는 사람 이메일"
+
+#받는 사람
+#to로 조인을 해라
+msg['To'] = ",".join(to)
+
+#리스트형태로 되있던걸 콤마형태로 조인해줌
+",".join(to)
+
+
+
++파일을 직접 만들어서 보내기
+
+#파일 만들기
+sendDf = pd.DataFrame ([ ["퀴즈1","spark1.com"], ["퀴즈2", "spark2.com"] ])   #수정해야 할 부분:[   ,   ]
+
+sendDf.columns =["퀴즈이름","퀴즈링크"]                                        #수정해야 할 부분: 컬럼이름 입력
+#만든 파일을 저장
+sendDf.to_csv("파일경로/저장할 파일명", encoding="ms949")                       
+
+#첨부파일 메일전송
+
+#파일을 불러오는 방법
+file = '파일경로/저장 파일명'
+
+#파일을 rb형태로 불러오겠다
+fp = open(file,'rb')
+file_data = fp.read()
+
+msg.add_attachment(file_data,
+                   maintype ='text',             #텍스트데이터이다
+                   subtype = 'plain',
+                   filename = file)
+#메일 전송
+smtp_gmail.send_message(msg)
+smtp_gmail.close()
