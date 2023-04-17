@@ -1,0 +1,44 @@
+import pandas as pd
+import psycopg2
+from sqlalchemy import create_engine
+import pymysql
+
+#클라우드 db
+inId = "0000"
+inPw = "0000"
+inIp = "000.000.000.000"
+inPort= "0000"
+inDbName = "0000"
+
+#연결1
+postEngine = create_engine('mysql+pymysql://{}:{}@{}:{}/{}'.format(inId, inPw, inIp , inPort ,inDbName) )
+
+#DB에서 불러온 파일 불러오기
+inData=pd.read_sql_query(sql="select * from pgresult_hs", con = postEngine)
+
+#본인 db
+inId2 = "0000"
+inPw2 = "0000"
+inIp2 = "000.000.000.000"
+inPort2= "0000"
+inDbName2 = "000"
+
+#연결2
+postEngine2 = create_engine('mysql+pymysql://{}:{}@{}:{}/{}'.format(inId2, inPw2, inIp2 , inPort2 ,inDbName2) )
+
+#저장방법
+# inData.to_sql(name = "st11", con=postEngine2)
+
+
+
+#포스트그레
+#설치필요 라이브러리: 
+# engine = create_engine('postgresql://{}:{}@{}:{}/{}'.format(inId, inPw, inIp , inPort ,inDbName) )
+
+# 마리아
+#설치필요 라이브러리: 
+# engine  = create_engine('mysql+pymysql://{}:{}@{}:{}/{}'.format(inId, inPw, inIp , inPort ,inDbName) )
+
+# 오라클
+# 설치필요 라이브러리 : pip install cx_Oracle
+# engine = create_engine('oracle+cx_oracle://{}:{}@{}:{}/{}'.format(inId,inPw,inIp,inPort,inDbName))
