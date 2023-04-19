@@ -14,7 +14,7 @@ inDbName = "0000"
 postEngine = create_engine('mysql+pymysql://{}:{}@{}:{}/{}'.format(inId, inPw, inIp , inPort ,inDbName) )
 
 #DB에서 불러온 파일 불러오기
-inData=pd.read_sql_query(sql="select * from pgresult_hs", con = postEngine)
+inData=pd.read_sql_query(sql="select * from [테이블명]", con = postEngine)
 
 #본인 db
 inId2 = "0000"
